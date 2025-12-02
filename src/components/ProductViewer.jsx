@@ -3,9 +3,12 @@ import clsx from "clsx"
 import { Canvas } from "@react-three/fiber"
 import { Box, OrbitControls } from "@react-three/drei"
 import MacbookModel14 from "./models/Macbook-14"
-import StudioLights from "./StudioLights"
+import StudioLights from "./three/StudioLights"
+import ModelSwitcher from "./three/ModelSwitcher"
+import {useMediaQuery} from "react-responsive"
 const ProductViewer = () => {
     const { color, scale, setColor, setScale, reset } = useMackBookStore();
+    const isMobile = useMediaQuery({query:"(max-width: 1024px)"})
     return (
         <section id="product-viewer">
             <h2>
@@ -45,9 +48,9 @@ const ProductViewer = () => {
             <Canvas id="canvas" camera={{ position: [0, 2, 5], fov: 50, near: 0.1, far: 100 }}>
               
               <StudioLights />
-                <MacbookModel14 scale={0.06} position={[0, 0, 0]} />
-
-                <OrbitControls enableZoom={false} />
+               
+                <ModelSwitcher scale={isMobile?scale-0.03:scale} isMobile={isMobile} />
+                
             </Canvas>
         </section>
     )
